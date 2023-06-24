@@ -17,6 +17,7 @@ export const studentLogin = (id, password) => {
         if(resp.data.code == 200){
             store.user = resp.data.data.student;
             store.login = true;
+            store.role = "student";
             Message.success({ content: "登录成功", showIcon: true });
         }else{
             Message.error("登录失败");

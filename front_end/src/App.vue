@@ -7,7 +7,11 @@
         :style="{ width: '100%' }"
         @menu-item-click="onClickMenuItem"
       >
-      <a-menu-item key="0_1" v-if="store.login">
+
+        <a-menu-item key="0_0" v-if="store.login">
+            <a-button type="primary" status="danger" @click="logout">退出登录</a-button>
+        </a-menu-item>
+        <a-menu-item key="0_1" v-if="store.login">
           个人信息
         </a-menu-item>
         <a-divider />
@@ -48,11 +52,11 @@
         <a-menu-item key="0_7" v-if="store.login && store.role === 'admin'">
           导入学院信息
         </a-menu-item>
-        <a-menu-item key="0_8" v-if="store.login && store.role === 'admin'">
-          导入成绩信息
-        </a-menu-item>
         <a-menu-item key="0_9" v-if="store.login && store.role === 'admin'">
-          安排课程
+          导入课程信息
+        </a-menu-item>
+        <a-menu-item key="0_8" v-if="store.login && store.role === 'admin'">
+          安排学生课程
         </a-menu-item>
         <a-divider v-if="store.login && store.role === 'admin'"/>
         <a-menu-item key="0_16" v-if="store.login && store.role === 'admin'">
@@ -124,6 +128,15 @@ import { useRouter } from 'vue-router';
 
 const store = useUserStore();
 const router = useRouter();
+
+const logout = () => {
+    localStorage.removeItem("user");
+    store.login = false;
+    store.role = "";
+    store.token = "";
+    store.user = null;
+    router.push("/login");
+}
 
 // 点击目录
 const onClickMenuItem = (key) => {
