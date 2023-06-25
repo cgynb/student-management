@@ -16,7 +16,7 @@ class Profession(rain_orm.Table):
     __fields__ = {
         "id": Int(primary_key=True, auto_increment=True),
         "name": VarChar(30),
-        "academy_id": Int()
+        "academy_id": Int(foreign_key=Academy.id)
     }
 
 
@@ -26,7 +26,7 @@ class Class(rain_orm.Table):
         "id": Int(primary_key=True, auto_increment=True),
         "size": Int(),
         "name": VarChar(30),
-        "profession_id": Int()
+        "profession_id": Int(foreign_key=Profession.id)
     }
 
 
@@ -39,17 +39,7 @@ class Student(rain_orm.Table):
         "gender": VarChar(5),
         "birth": DateTime(),
         "origin": VarChar(30),
-        "class_id": Int()
-    }
-
-
-class Grade(rain_orm.Table):
-    __table__ = "grades"
-    __fields__ = {
-        "id": Int(primary_key=True, auto_increment=True),
-        "grade": Int(),
-        "student_id": Int(),
-        "course_id": Int()
+        "class_id": Int(foreign_key=Class.id)
     }
 
 
@@ -61,6 +51,16 @@ class Course(rain_orm.Table):
         "start": Int(),
         "end": Int(),
         "day": Int()
+    }
+
+    
+class Grade(rain_orm.Table):
+    __table__ = "grades"
+    __fields__ = {
+        "id": Int(primary_key=True, auto_increment=True),
+        "grade": Int(),
+        "student_id": Int(foreign_key=Student.id),
+        "course_id": Int(Course.id)
     }
 
 
